@@ -1,0 +1,23 @@
+{
+    "name": "ms-accounts",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon src/app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "2.8.5",
+        "express": "4.17.1",
+        "mongodb": "4.0.0",
+        "typeorm": "0.2.34"
+    },
+    "devDependencies": {
+        "@types/express": "4.17.13",
+        "@types/node": "16.3.3",
+        "nodemon": "2.0.12",
+        "typescript": "4.3.5"
+    }
+}

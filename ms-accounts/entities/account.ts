@@ -1,13 +1,10 @@
 import {Column, Entity, ObjectIdColumn} from "typeorm";
 
 @Entity()
-export class Notification {
+export class Account {
     @ObjectIdColumn()
     id: string;
 
     @Column()
     type: string;
-
-    @Column()
-    content: string;
 }

@@ -1,0 +1,42 @@
+name: deployment
+
+on:
+    push:
+        branches:
+            - masters
+        paths:
+            - "kafka/**"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              env:
+                  CI: true
+            - name: Publish to GitHub Packages
+              uses: docker/build-push-action@v1
+              with:
+                  name: bakbas/nodejs-microservices/kafka
+                  username: ${{ secrets.GIT_USER }}
+                  password: ${{ secrets.GIT_TOKEN }}
+                  registry: docker.pkg.github.com
+                  repository: bakbas/nodejs-microservices/kafka
+                  tags: latest, ${{ github.run_number }}
+            - name: Deploy package to DigitalOcean
+              uses: appleboy/ssh-action@master
+              env:
+                  GIT_USER: ${{ secrets.GIT_USER }}
+                  GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+              with:
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USER }}
+                  password: ${{ secrets.SSH_PASS }}
+                  envs: GIT_USER, GIT_TOKEN
+                  script: |
+                      docker login docker.pkg.github.com -u $GIT_USER -p $GIT_TOKEN
+                      docker stop $(docker ps | grep docker.pkg.github.com/bakbas/nodejs-microservices/kafka | awk '{print $1}')
+                      docker pull docker.pkg.github.com/bakbas/nodejs-microservices/kafka:latest
+                      docker run --rm -dit -p 80:80 --name kafka docker.pkg.github.com/bakbas/nodejs-microservices/kafka:latest
+                      docker image prune -f

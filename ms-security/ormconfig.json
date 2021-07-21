@@ -2,10 +2,12 @@
     "type": "mongodb",
     "host": "localhost",
     "database": "ms-security",
+    "username": "bahtiyar",
+    "password": "mongodb",
     "synchronize": true,
-    "logging": false,
-    "entities": ["src/entities/*.js"],
+    "logging": true,
+    "entities": ["src/entities/*.ts"],
     "cli": {
-        "entitiesDir": "src/entity"
+        "entitiesDir": "src/entities"
     }
 }

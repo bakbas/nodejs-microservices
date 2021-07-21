@@ -4,8 +4,9 @@ yarn.lock
 .DS_Store
 package-lock.json
 test-report.xml
-kafka/kafka/
-kafka/zookeeper/
+kafka/kafka
+kafka/zookeeper
+mongo/db
 
 # Dependency directories
 node_modules/

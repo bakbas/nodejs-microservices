@@ -6,6 +6,6 @@
     "logging": false,
     "entities": ["src/entities/*.js"],
     "cli": {
-        "entitiesDir": "src/entity"
+        "entitiesDir": "src/entities"
     }
 }

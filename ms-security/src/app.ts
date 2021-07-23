@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
-import express from "express";
-import { Response } from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { createConnection } from "typeorm";
@@ -10,8 +9,18 @@ dotenv.config({
     path: "env/.env"
 });
 
-createConnection().then((db) => {
-    const accountRepository = db.getMongoRepository(User);
+createConnection().then(async (db) => {
+    const userRepository = db.getMongoRepository(User);
+
+    // const user = new User();
+    // user.email = "bahtiyar@outlook.com";
+    // user.password = "hello";
+
+    // const asd = await userRepository
+    //     .save(user)
+    //     .catch((e) => console.log("e", e));
+
+    // console.log(asd._id);
 
     const app = express();
 
@@ -25,9 +34,9 @@ createConnection().then((db) => {
 
     app.use(express.json());
 
-    app.get("/api/accounts", async (res: Response) => {
-        const accounts = await accountRepository.find();
-        return res.send(accounts);
+    app.get("/api/users", async (req: Request, res: Response) => {
+        const users: User[] = await userRepository.find();
+        return res.json(users);
     });
 
     const PORT: number = parseInt(process.env.PORT as string, 10);

@@ -5,9 +5,10 @@
     "username": "bahtiyar",
     "password": "mongo",
     "synchronize": true,
-    "logging": true,
-    "entities": ["src/entities/*.ts"],
+    "logging": false,
+    "useUnifiedTopology": true,
+    "entities": ["build/entities/*.js"],
     "cli": {
-        "entitiesDir": "src/entities"
+        "entitiesDir": "build/entities"
     }
 }

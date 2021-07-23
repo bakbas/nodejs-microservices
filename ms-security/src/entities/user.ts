@@ -1,16 +1,37 @@
-import { Column, Entity, ObjectIdColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    CreateDateColumn,
+    ObjectIdColumn,
+    ObjectID
+} from "typeorm";
 
-@Entity()
+export enum UserRole {
+    CUSTOMER = "customer",
+    AGENT = "agent",
+    ADMIN = "admin"
+}
+
+@Entity("users")
 export class User {
     @ObjectIdColumn()
-    id!: string;
+    _id!: ObjectID;
 
     @Column({ unique: true })
-    email!: number;
+    email!: string;
 
     @Column()
     password!: string;
 
-    @Column({ default: 0 })
-    failedLoginAttempt!: number;
+    @Column()
+    role: UserRole = UserRole.CUSTOMER;
+
+    @Column()
+    failedLoginAttempt: number = 0;
+
+    @CreateDateColumn({
+        type: "timestamp",
+        default: () => "LOCALTIMESTAMP"
+    })
+    createdAt!: Date;
 }

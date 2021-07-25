@@ -14,14 +14,16 @@ export enum UserRole {
 
 @Entity("users")
 export class User {
-    @ObjectIdColumn()
-    _id!: ObjectID;
+    // @ObjectIdColumn()
+    // _id: ObjectID;
+    @ObjectIdColumn({ name: "_id" })
+    id: ObjectID;
 
-    @Column({ unique: true })
-    email!: string;
+    @Column({ nullable: false, unique: true })
+    email: string;
 
-    @Column()
-    password!: string;
+    @Column({ nullable: false })
+    password: string;
 
     @Column()
     role: UserRole = UserRole.CUSTOMER;
@@ -33,5 +35,5 @@ export class User {
         type: "timestamp",
         default: () => "LOCALTIMESTAMP"
     })
-    createdAt!: Date;
+    createdAt: Date;
 }

@@ -5,6 +5,7 @@ import {
     ObjectIdColumn,
     ObjectID
 } from "typeorm";
+import { IsInt, IsEmail, IsNotEmpty } from "class-validator";
 
 export enum UserRole {
     CUSTOMER = "customer",
@@ -20,15 +21,18 @@ export class User {
     id: ObjectID;
 
     @Column({ nullable: false, unique: true })
+    @IsEmail()
     email: string;
 
     @Column({ nullable: false })
+    @IsNotEmpty()
     password: string;
 
     @Column()
     role: UserRole = UserRole.CUSTOMER;
 
     @Column()
+    @IsInt()
     failedLoginAttempt: number = 0;
 
     @CreateDateColumn({

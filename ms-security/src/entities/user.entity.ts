@@ -22,13 +22,14 @@ export class User {
 
     @Column({ nullable: false, unique: true })
     @IsEmail()
+    @IsNotEmpty()
     email: string;
 
     @Column({ nullable: false })
     @IsNotEmpty()
     password: string;
 
-    @Column()
+    @Column("enum", { enum: UserRole })
     role: UserRole = UserRole.CUSTOMER;
 
     @Column()

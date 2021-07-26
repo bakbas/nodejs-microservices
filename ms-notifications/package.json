@@ -6,7 +6,7 @@
     "scripts": {
         "start": "nodemon src/app.js"
     },
-    "author": "",
+    "author": "Bahtiyar Akbas <bahtiyar@outlook.com>",
     "license": "ISC",
     "dependencies": {
         "cors": "2.8.5",

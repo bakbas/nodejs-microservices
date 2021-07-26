@@ -3,13 +3,12 @@ dotenv.config({
     path: "env/.env"
 });
 import express, { Application } from "express";
+import { useExpressServer } from "routing-controllers";
 import cors from "cors";
 import helmet from "helmet";
 import { createConnection, Connection } from "typeorm";
-import { router } from "./routes";
 import Logger from "./utils/logger";
-
-import morganMiddleware from "./middlewares/morganMiddleware";
+import morganMiddleware from "./middlewares/morgan.middleware";
 
 export class App {
     private readonly app: Application = express();
@@ -25,10 +24,6 @@ export class App {
         this.app.use(morganMiddleware);
     }
 
-    private routes() {
-        this.app.use(router);
-    }
-
     async databaseConnection(): Promise<Connection> {
         return await createConnection().catch((err) => {
             Logger.error(
@@ -42,9 +37,11 @@ export class App {
     public async start(): Promise<Application> {
         this.db = await this.databaseConnection();
         this.middlewares();
-        this.routes();
 
-        return this.app;
+        return useExpressServer(this.app, {
+            routePrefix: "/api/",
+            controllers: [__dirname + "/controllers/*.controller.ts"]
+        });
     }
 
     public async stop(): Promise<void> {

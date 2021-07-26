@@ -1,9 +1,9 @@
 import morgan, { StreamOptions } from "morgan";
 
-import Logger from "../utils/logger";
+import { logger } from "../utils";
 
 const stream: StreamOptions = {
-    write: (message: string) => Logger.http(message)
+    write: (message: string) => logger.http(message)
 };
 
 const skip = () => {

@@ -42,12 +42,6 @@ const coloredFormat = winston.format.combine(
 const transports = [
     new winston.transports.Console({ format: coloredFormat }),
     new winston.transports.File({
-        filename: "logs/error.log",
-        level: "error",
-        handleExceptions: true,
-        format
-    }),
-    new winston.transports.File({
         filename: "logs/all.log",
         handleExceptions: true,
         format

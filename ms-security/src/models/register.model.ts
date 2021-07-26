@@ -7,6 +7,7 @@ import {
     Matches
 } from "class-validator";
 import { Match } from "../decorators/match.decorator";
+import i18next from "../configs/i18n.config";
 
 export class Register {
     @IsEmail()
@@ -26,7 +27,7 @@ export class Register {
     @MinLength(4)
     @MaxLength(20)
     @Match("password", {
-        message: "Your password and confirmation password do not matched"
+        message: i18next.t("errors.required") //"Your password and confirmation password do not matched"
     })
     @IsNotEmpty()
     passwordConfirm: string;

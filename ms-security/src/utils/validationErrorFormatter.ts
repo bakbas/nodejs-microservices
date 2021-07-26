@@ -1,6 +1,6 @@
 import { ValidationError } from "class-validator";
 
-const ErrorFormatter = (errors: ValidationError[]) => {
+const ValidationErrorFormatter = (errors: ValidationError[]) => {
     const validation = errors.reduce((res, error: ValidationError) => {
         const { property, constraints } = error;
         const [first] = Object.keys(constraints as {});
@@ -10,4 +10,4 @@ const ErrorFormatter = (errors: ValidationError[]) => {
     return { validation };
 };
 
-export default ErrorFormatter;
+export default ValidationErrorFormatter;

@@ -1,16 +1,16 @@
 import "reflect-metadata";
 import { Server } from "http";
-import { App } from "./app";
-import Logger from "./utils/logger";
+import App from "./app";
+import { logger } from "./utils";
 
 type ShutdownHandler = () => void;
 
 function getShutdownHandler(app: App, server: Server): ShutdownHandler {
     return function () {
         server.close(async (err) => {
-            Logger.info("Stopping...");
+            logger.info("Stopping...");
             await app.stop();
-            Logger.info("Stopped");
+            logger.info("Stopped");
             process.exit(err ? 1 : 0);
         });
     };
@@ -31,5 +31,5 @@ async function server(): Promise<void> {
 
 Promise.resolve()
     .then(server)
-    .then(() => Logger.info(`🚀 Server is running on port: ${port}`))
-    .catch((err) => Logger.error(err));
+    .then(() => logger.info(`🚀 Server is running on port: ${port}`))
+    .catch((err) => logger.error(err));

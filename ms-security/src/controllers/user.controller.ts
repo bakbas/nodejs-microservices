@@ -3,7 +3,7 @@ import argon2 from "argon2";
 import { validate } from "class-validator";
 import { getMongoRepository } from "typeorm";
 import { Register } from "../models/register.model";
-import errorFormatter from "../utils/errorFormatter";
+import { validationErrorFormatter } from "../utils";
 import { User } from "../entities/user.entity";
 
 @JsonController()
@@ -19,20 +19,18 @@ export class UserController {
         const errors = await validate(register);
 
         if (errors.length > 0) {
-            return errorFormatter(errors);
+            return validationErrorFormatter(errors);
         } else {
             const userRepository = getMongoRepository(User);
             const user = new User();
             user.email = email;
             user.password = await argon2.hash(password);
 
-            const saved = await userRepository
-                .save(user)
-                .catch((err) => console.log("err", err.code));
-
-            console.log("saved", saved);
-
-            return [];
+            try {
+                return await userRepository.save(user);
+            } catch (error) {
+                return error;
+            }
         }
     }
 

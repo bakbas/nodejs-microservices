@@ -7,10 +7,10 @@ import { useExpressServer } from "routing-controllers";
 import cors from "cors";
 import helmet from "helmet";
 import { createConnection, Connection } from "typeorm";
-import Logger from "./utils/logger";
-import morganMiddleware from "./middlewares/morgan.middleware";
+import { logger } from "./utils";
+import { morganMiddleware, i18nextMiddleware } from "./middlewares";
 
-export class App {
+export default class App {
     private readonly app: Application = express();
     public db: Connection;
     private readonly dev =
@@ -22,14 +22,15 @@ export class App {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(morganMiddleware);
+        this.app.use(i18nextMiddleware);
     }
 
     async databaseConnection(): Promise<Connection> {
         return await createConnection().catch((err) => {
-            Logger.error(
+            logger.error(
                 "[Fatal] Failed to establish connection to database! Exiting..."
             );
-            Logger.error(JSON.stringify(err));
+            logger.error(JSON.stringify(err));
             process.exit(1);
         });
     }
@@ -45,6 +46,6 @@ export class App {
     }
 
     public async stop(): Promise<void> {
-        Logger.info("Application stoped");
+        logger.info("Application stoped");
     }
 }

@@ -1,5 +1,5 @@
 import { JsonController, Body, Get } from "routing-controllers";
-import errorFormatter from "../utils/errorFormatter";
+import { validationErrorFormatter } from "../utils";
 
 @JsonController()
 export class TokenController {

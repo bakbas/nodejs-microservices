@@ -15,8 +15,6 @@ export enum UserRole {
 
 @Entity("users")
 export class User {
-    // @ObjectIdColumn()
-    // _id: ObjectID;
     @ObjectIdColumn({ name: "_id" })
     id: ObjectID;
 
@@ -41,4 +39,8 @@ export class User {
         default: () => "LOCALTIMESTAMP"
     })
     createdAt: Date;
+
+    @Column()
+    @IsInt()
+    status: number = 0;
 }

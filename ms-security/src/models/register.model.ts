@@ -18,7 +18,7 @@ export class Register {
     @MinLength(4)
     @MaxLength(20)
     @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-        message: "password too weak"
+        message: i18next.t("errors.passwordTooWeak")
     })
     @IsNotEmpty()
     password: string;
@@ -27,7 +27,7 @@ export class Register {
     @MinLength(4)
     @MaxLength(20)
     @Match("password", {
-        message: i18next.t("errors.required") //"Your password and confirmation password do not matched"
+        message: i18next.t("errors.passwordNotMatched")
     })
     @IsNotEmpty()
     passwordConfirm: string;

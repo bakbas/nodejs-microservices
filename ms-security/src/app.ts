@@ -4,11 +4,8 @@ dotenv.config({
 });
 import express, { Application } from "express";
 import { useExpressServer } from "routing-controllers";
-import cors from "cors";
-import helmet from "helmet";
 import { createConnection, Connection } from "typeorm";
 import { logger } from "./utils";
-import { morganMiddleware, i18nextMiddleware } from "./middlewares";
 
 export default class App {
     private readonly app: Application = express();
@@ -17,12 +14,8 @@ export default class App {
         (process.env.NODE_ENV || "development") === "development";
 
     private middlewares() {
-        this.app.use(cors());
-        this.app.use(helmet());
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
-        this.app.use(morganMiddleware);
-        this.app.use(i18nextMiddleware);
     }
 
     async databaseConnection(): Promise<Connection> {
@@ -41,7 +34,9 @@ export default class App {
 
         return useExpressServer(this.app, {
             routePrefix: "/api/",
-            controllers: [__dirname + "/controllers/*.controller.ts"]
+            controllers: [__dirname + "/controllers/*.controller.ts"],
+            middlewares: [__dirname + "/middlewares/*.middleware.ts"],
+            defaultErrorHandler: false
         });
     }
 

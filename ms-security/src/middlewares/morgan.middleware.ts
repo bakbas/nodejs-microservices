@@ -1,19 +1,27 @@
+import { Request, Response, NextFunction } from "express";
 import morgan, { StreamOptions } from "morgan";
-
+import { ExpressMiddlewareInterface, Middleware } from "routing-controllers";
 import { logger } from "../utils";
 
-const stream: StreamOptions = {
-    write: (message: string) => logger.http(message)
-};
+@Middleware({ type: "before" })
+export default class MorganMiddleware implements ExpressMiddlewareInterface {
+    private readonly env = process.env.NODE_ENV || "development";
 
-const skip = () => {
-    const env = process.env.NODE_ENV || "development";
-    return env !== "development";
-};
+    private stream: StreamOptions = {
+        write: (message: string) => logger.http(message)
+    };
 
-const morganMiddleware = morgan(
-    ":method :url HTTP/:http-version - :status :res[content-length] - :referrer - :user-agent - :remote-addr - :remote-user [:date[clf]]",
-    { stream, skip }
-);
+    private skip = () => {
+        return this.env !== "development";
+    };
 
-export default morganMiddleware;
+    public use(req: Request, res: Response, next: NextFunction) {
+        return morgan(
+            ":method :url HTTP/:http-version - :status :res[content-length] - :referrer - :user-agent - :remote-addr - :remote-user [:date[clf]]",
+            {
+                stream: this.stream,
+                skip: this.skip
+            }
+        )(req, res, next);
+    }
+}

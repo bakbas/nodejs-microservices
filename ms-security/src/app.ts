@@ -13,11 +13,6 @@ export default class App {
     private readonly dev =
         (process.env.NODE_ENV || "development") === "development";
 
-    private middlewares() {
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({ extended: true }));
-    }
-
     async databaseConnection(): Promise<Connection> {
         return await createConnection().catch((err) => {
             logger.error(
@@ -30,7 +25,6 @@ export default class App {
 
     public async start(): Promise<Application> {
         this.db = await this.databaseConnection();
-        this.middlewares();
 
         return useExpressServer(this.app, {
             routePrefix: "/api/",

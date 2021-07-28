@@ -1,8 +1,7 @@
-import { JsonController, Body, Post, NotFoundError } from "routing-controllers";
+import { JsonController, Body, Post } from "routing-controllers";
 import argon2 from "argon2";
 import { getMongoRepository } from "typeorm";
 import { Register } from "../models/register.model";
-import { repositoryErrorFormatter } from "../utils";
 import { User } from "../entities/user.entity";
 
 @JsonController()
@@ -16,13 +15,7 @@ export class UserController {
         user.email = email;
         user.password = await argon2.hash(password);
 
-        try {
-            return await userRepository.save(user);
-        } catch (error) {
-            throw new NotFoundError(`User was not found.`); // message is optional
-
-            return repositoryErrorFormatter(error);
-        }
+        return await userRepository.save(user);
     }
 
     @Post("user/login")

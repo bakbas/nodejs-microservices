@@ -1,7 +1,7 @@
 import { Action, HttpError } from "routing-controllers";
-import { verify, Secret, JwtPayload } from "jsonwebtoken";
 import { getMongoRepository } from "typeorm";
 import { User } from "../entities/user.entity";
+import jwtService from "../services/jwt.service";
 
 const { JWT_SIGNATURE } = process.env;
 
@@ -16,12 +16,12 @@ export default async function Authorization(
     const [, token] = authorization.split(" ");
 
     try {
-        const payload = verify(token, JWT_SIGNATURE as Secret) as JwtPayload;
+        const tokenBody = jwtService.verify(token);
 
         const userRepository = getMongoRepository(User);
 
         const currentUser = await userRepository.findOne({
-            email: payload.email
+            email: tokenBody.email
         });
 
         if (!currentUser) return false;

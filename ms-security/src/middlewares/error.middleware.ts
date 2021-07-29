@@ -12,6 +12,7 @@ export default class ErrorMiddleware
 {
     error(error: any, req: Request, res: Response, next: NextFunction) {
         const { errors = [], httpCode = 500, name } = error;
+
         if (!!find(errors, "constraints")) {
             return res.status(httpCode).json(validationErrorFormatter(errors));
         }

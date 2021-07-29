@@ -6,6 +6,7 @@ import {
     ObjectID
 } from "typeorm";
 import { IsInt, IsEmail, IsNotEmpty } from "class-validator";
+import { hash, verify } from "argon2";
 
 export enum UserRole {
     CUSTOMER = "customer",
@@ -43,4 +44,15 @@ export class User {
     @Column()
     @IsInt()
     status: number = 0;
+
+    public static async comparePassword(
+        user: User,
+        password: string
+    ): Promise<boolean> {
+        return await verify(user?.password as string, password);
+    }
+
+    public static async hashPassword(password: string): Promise<string> {
+        return await hash(password);
+    }
 }

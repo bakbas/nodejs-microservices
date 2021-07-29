@@ -4,6 +4,7 @@ export default {
         passwordNotMatched:
             "Your password and confirmation password don't match",
         passwordTooWeak: "Password is too weak",
-        usedEmail: "This email is already in use. Please use another one"
+        usedEmail: "This email is already in use. Please use another one",
+        loginFail: "Incorrect email address or password, please try again"
     }
 };

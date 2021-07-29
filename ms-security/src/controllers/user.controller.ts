@@ -4,14 +4,14 @@ import {
     Post,
     Get,
     Authorized,
-    UseBefore,
-    CurrentUser
+    CurrentUser,
+    HttpError
 } from "routing-controllers";
-import passport from "passport";
-import argon2 from "argon2";
 import { getMongoRepository } from "typeorm";
 import { Register } from "../models/register.model";
-import { User, UserRole } from "../entities/user.entity";
+import { User } from "../entities/user.entity";
+import { authService, jwtService } from "../services";
+import i18next from "../configs/i18n.config";
 
 @JsonController()
 export class UserController {
@@ -23,41 +23,30 @@ export class UserController {
 
         const user = new User();
         user.email = email;
-        user.password = await argon2.hash(password);
+        user.password = await User.hashPassword(password);
 
         await this.userRepository.save(user);
         return {};
     }
 
-    @Authorized()
     @Post("user/login")
-    async loginUser(@CurrentUser() currentUser: User) {
-        return { ...currentUser };
+    async loginUser(@Body() body: Register) {
+        const { email, password } = body;
+
+        const user = (await authService.validateUser(email, password)) as User;
+
+        if (!user) throw new HttpError(404, i18next.t("errors.loginFail"));
+
+        const { role } = user;
+
+        const token = jwtService.sign({ email, role });
+
+        return { token };
     }
 
-    @Get("/facebook")
-    @UseBefore(passport.authenticate("facebook", { scope: "email" }))
-    facebook() {}
-
-    @Get("/facebook/callback")
-    @UseBefore(
-        passport.authenticate("facebook", {
-            successRedirect: "/",
-            failureRedirect: "/login"
-        })
-    )
-    facebookCallback() {}
-
-    @Get("/google")
-    @UseBefore(passport.authenticate("google", { scope: ["profile", "email"] }))
-    google() {}
-
-    @Get("/google/callback")
-    @UseBefore(
-        passport.authenticate("google", {
-            successRedirect: "/",
-            failureRedirect: "/login"
-        })
-    )
-    googleCallback() {}
+    @Authorized()
+    @Get("user")
+    async getUser(@CurrentUser() currentUser: User) {
+        return { ...currentUser };
+    }
 }

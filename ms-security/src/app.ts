@@ -3,9 +3,10 @@ dotenv.config({
     path: "env/.env"
 });
 import express, { Application } from "express";
-import { useExpressServer } from "routing-controllers";
+import { useExpressServer, Action } from "routing-controllers";
 import { createConnection, Connection } from "typeorm";
 import { logger } from "./utils";
+import authorizationChecker from "./decorators/authorization.decorator";
 
 export default class App {
     private readonly app: Application = express();
@@ -27,10 +28,13 @@ export default class App {
         this.db = await this.databaseConnection();
 
         return useExpressServer(this.app, {
+            cors: true,
             routePrefix: "/api/",
             controllers: [__dirname + "/controllers/*.controller.ts"],
             middlewares: [__dirname + "/middlewares/*.middleware.ts"],
-            defaultErrorHandler: false
+            defaultErrorHandler: false,
+            currentUserChecker: (action: Action) => action.request.user,
+            authorizationChecker
         });
     }
 

@@ -1,5 +1,4 @@
 import { parse } from "hjson";
-import { get } from "lodash";
 import i18next from "../configs/i18n.config";
 
 const ErrorList: { [key: string]: string } = {

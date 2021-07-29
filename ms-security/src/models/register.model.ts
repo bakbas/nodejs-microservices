@@ -6,7 +6,6 @@ import {
     MaxLength,
     Matches
 } from "class-validator";
-import { Match } from "../decorators/match.decorator";
 import i18next from "../configs/i18n.config";
 
 export class Register {
@@ -22,13 +21,4 @@ export class Register {
     })
     @IsNotEmpty()
     password: string;
-
-    @IsString()
-    @MinLength(4)
-    @MaxLength(20)
-    @Match("password", {
-        message: i18next.t("errors.passwordNotMatched")
-    })
-    @IsNotEmpty()
-    passwordConfirm: string;
 }

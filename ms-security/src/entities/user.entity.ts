@@ -43,7 +43,7 @@ export class User {
 
     @Column()
     @IsInt()
-    status: number = 0;
+    status: number = 1; //0-Deactive, 1-Active
 
     public static async comparePassword(
         user: User,

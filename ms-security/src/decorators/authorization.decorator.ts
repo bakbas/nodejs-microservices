@@ -3,8 +3,6 @@ import { getMongoRepository } from "typeorm";
 import { User } from "../entities/user.entity";
 import jwtService from "../services/jwt.service";
 
-const { JWT_SIGNATURE } = process.env;
-
 export default async function Authorization(
     action: Action,
     roles?: string[]
@@ -16,7 +14,7 @@ export default async function Authorization(
     const [, token] = authorization.split(" ");
 
     try {
-        const tokenBody = jwtService.verify(token);
+        const tokenBody = await jwtService.verify(token);
 
         const userRepository = getMongoRepository(User);
 
@@ -35,7 +33,7 @@ export default async function Authorization(
 
         action.request.user = { email, role };
     } catch (err) {
-        throw new HttpError(400, err);
+        throw new HttpError(401, err.message || err);
     }
 
     return true;

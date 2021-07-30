@@ -7,6 +7,7 @@ import { useExpressServer, Action } from "routing-controllers";
 import { createConnection, Connection } from "typeorm";
 import { logger } from "./utils";
 import authorizationChecker from "./decorators/authorization.decorator";
+import redisClient from "./configs/redis.config";
 
 export default class App {
     private readonly app: Application = express();

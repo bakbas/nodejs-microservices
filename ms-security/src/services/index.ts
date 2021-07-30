@@ -1,4 +1,5 @@
 import authService from "./auth.service";
 import jwtService from "./jwt.service";
+import redisService from "./redis.service";
 
-export { authService, jwtService };
+export { authService, jwtService, redisService };

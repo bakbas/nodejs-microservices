@@ -1,12 +1,13 @@
 import {
     JsonController,
-    Body,
     Get,
     Authorized,
-    CurrentUser
+    CurrentUser,
+    HeaderParam
 } from "routing-controllers";
 import { User } from "../entities/user.entity";
-import authService from "../services/auth.service";
+import { jwtService, redisService } from "../services";
+import i18next from "../configs/i18n.config";
 
 @Authorized()
 @JsonController()
@@ -18,11 +19,21 @@ export class TokenController {
 
     @Get("token/refresh")
     async refreshToken(@CurrentUser() currentUser: User) {
-        return [];
+        const { email, role } = currentUser;
+        const token = jwtService.sign({ email, role });
+        console.log('redisService.get("test")', await redisService.get("test"));
+        return { token };
     }
 
     @Get("token/invalidate")
-    async invalidateToken(@CurrentUser() currentUser: User) {
-        return [];
+    async invalidateToken(@HeaderParam("authorization") jwtToken: string) {
+        const [, token] = jwtToken.split(" ");
+
+        return (
+            !(await redisService.set(`blacklist_${token}`, "true")) || {
+                status: "success",
+                message: i18next.t("token.revoke")
+            }
+        );
     }
 }

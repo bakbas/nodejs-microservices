@@ -1,0 +1,19 @@
+version: "3.8"
+
+networks:
+    redis:
+        name: redis
+
+services:
+    mongo:
+        image: redis
+        restart: always
+        container_name: redis
+        volumes:
+            - ./data:/data
+            - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+
+        ports:
+            - 6379:6379
+        networks:
+            - redis

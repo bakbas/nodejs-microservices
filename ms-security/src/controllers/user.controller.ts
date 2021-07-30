@@ -37,7 +37,10 @@ export class UserController {
 
         if (!user) throw new HttpError(404, i18next.t("errors.loginFail"));
 
-        const { role } = user;
+        const { role, failedLoginAttempt } = user;
+
+        if (failedLoginAttempt > 2)
+            throw new HttpError(400, i18next.t("errors.lockedAccount"));
 
         const token = jwtService.sign({ email, role });
 

@@ -8,6 +8,7 @@ test-report.xml
 kafka/kafka
 kafka/zookeeper
 mongo/db
+redis/data
 
 # Dependency directories
 node_modules/

@@ -22,19 +22,19 @@ services:
         networks:
             - mongo
 
-    mongoExpress:
-        image: mongo-express
-        restart: always
-        container_name: mongoExpress
-        ports:
-            - 8081:8081
-        environment:
-            ME_CONFIG_MONGODB_SERVER: mongo
-            ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-            ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-            ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
-            ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
-        networks:
-            - mongo
-        depends_on:
-            - mongo
+    # mongoExpress:
+    #     image: mongo-express
+    #     restart: always
+    #     container_name: mongoExpress
+    #     ports:
+    #         - 8081:8081
+    #     environment:
+    #         ME_CONFIG_MONGODB_SERVER: mongo
+    #         ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+    #         ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    #         ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+    #         ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+    #     networks:
+    #         - mongo
+    #     depends_on:
+    #         - mongo

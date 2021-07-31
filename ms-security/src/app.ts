@@ -4,18 +4,17 @@ dotenv.config({
 });
 import express, { Application } from "express";
 import { useExpressServer, Action } from "routing-controllers";
-import { createConnection, Connection } from "typeorm";
+import { createConnection } from "typeorm";
 import { logger } from "./utils";
 import authorizationChecker from "./decorators/authorization.decorator";
-import redisClient from "./configs/redis.config";
+import consumers from "./consumers";
 
 export default class App {
     private readonly app: Application = express();
-    public db: Connection;
     private readonly dev =
         (process.env.NODE_ENV || "development") === "development";
 
-    async databaseConnection(): Promise<Connection> {
+    async databaseConnection() {
         return await createConnection().catch((err) => {
             logger.error(
                 "[Fatal] Failed to establish connection to database! Exiting..."
@@ -25,8 +24,13 @@ export default class App {
         });
     }
 
+    async consumers() {
+        await consumers.run();
+    }
+
     public async start(): Promise<Application> {
-        this.db = await this.databaseConnection();
+        await this.databaseConnection();
+        await this.consumers();
 
         return useExpressServer(this.app, {
             cors: true,

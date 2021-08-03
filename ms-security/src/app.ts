@@ -4,7 +4,7 @@ dotenv.config({
 });
 import express, { Application } from "express";
 import { useExpressServer, Action } from "routing-controllers";
-import { createConnection } from "typeorm";
+import { createConnection, Connection } from "typeorm";
 import { logger } from "./utils";
 import authorizationChecker from "./decorators/authorization.decorator";
 import consumers from "./consumers";
@@ -14,7 +14,7 @@ export default class App {
     private readonly dev =
         (process.env.NODE_ENV || "development") === "development";
 
-    async databaseConnection() {
+    async databaseConnection(): Promise<Connection> {
         return await createConnection().catch((err) => {
             logger.error(
                 "[Fatal] Failed to establish connection to database! Exiting..."
@@ -24,7 +24,7 @@ export default class App {
         });
     }
 
-    async consumers() {
+    async consumers(): Promise<void> {
         await consumers.run();
     }
 

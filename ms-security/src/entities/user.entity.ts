@@ -33,7 +33,7 @@ export class User {
 
     @Column()
     @IsInt()
-    failedLoginAttempt: number = 0;
+    failedLoginAttempt = 0;
 
     @CreateDateColumn({
         type: "timestamp",
@@ -43,7 +43,7 @@ export class User {
 
     @Column()
     @IsInt()
-    status: number = 1; //0-Deactive, 1-Active
+    status = 1; //0-Deactive, 1-Active
 
     public static async comparePassword(
         user: User,

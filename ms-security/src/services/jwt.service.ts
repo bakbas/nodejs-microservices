@@ -7,11 +7,11 @@ const { JWT_SIGNATURE, JWT_EXPIRATION } = process.env;
 class JwtService {
     public async verify(token: string): Promise<JwtPayload> {
         const result = await redisService.get(`blacklist_${token}`);
-        if (!!result) throw new Error(i18next.t("errors.invalidToken"));
+        if (result) throw new Error(i18next.t("errors.invalidToken"));
         return verify(token, JWT_SIGNATURE as Secret) as JwtPayload;
     }
 
-    public sign(body: object) {
+    public sign(body: JwtPayload): string {
         return sign(body, JWT_SIGNATURE as Secret, {
             expiresIn: JWT_EXPIRATION
         });

@@ -10,13 +10,13 @@ type Error = {
     writeErrors: any;
 };
 
-const RepositoryErrorFormatter = (error: Error) => {
+const RepositoryErrorFormatter = (error: Error): unknown => {
     const { code, writeErrors = [] } = error;
     if (code === 11000) {
         const errArr =
-            writeErrors[0]?.err?.errmsg?.match(/[^{\}]+(?=})/g) || [];
+            writeErrors[0]?.err?.errmsg?.match(/[^{\\}]+(?=})/g) || [];
         const errObj = parse(`{${errArr[0]?.trim() || ""}}`);
-        let [first] = Object.keys(errObj as {});
+        const [first] = Object.keys(errObj as {});
         const validation = { [first]: ErrorList[first] };
         return { validation };
     }

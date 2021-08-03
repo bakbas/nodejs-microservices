@@ -6,7 +6,7 @@ class ProducerService {
         console.log("ProducerService");
     }
 
-    async send(messages: any, topic: string) {
+    async send(messages: unknown, topic: string) {
         await this.producer.connect();
         await this.producer.send({
             messages: [{ value: JSON.stringify(messages) }],

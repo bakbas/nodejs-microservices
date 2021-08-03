@@ -1,5 +1,5 @@
 import kafka from "../configs/kafka.config";
-import producerService from "../services/producer.service";
+//import producerService from "../services/producer.service";
 
 class UserConsumer {
     constructor(private consumer = kafka.consumer({ groupId: "user_group" })) {

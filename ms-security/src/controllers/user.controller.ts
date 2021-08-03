@@ -18,7 +18,7 @@ export class UserController {
     public readonly userRepository = getMongoRepository(User);
 
     @Post("user/register")
-    async registerUser(@Body() body: Register) {
+    async registerUser(@Body() body: Register): Promise<boolean> {
         const { email, password } = body;
 
         const user = new User();
@@ -26,11 +26,11 @@ export class UserController {
         user.password = await User.hashPassword(password);
 
         await this.userRepository.save(user);
-        return {};
+        return true;
     }
 
     @Post("user/login")
-    async loginUser(@Body() body: Register) {
+    async loginUser(@Body() body: Register): Promise<unknown> {
         const { email, password } = body;
 
         const user = (await authService.validateUser(email, password)) as User;
@@ -49,7 +49,7 @@ export class UserController {
 
     @Authorized()
     @Get("user")
-    async getUser(@CurrentUser() currentUser: User) {
+    async getUser(@CurrentUser() currentUser: User): Promise<User> {
         return { ...currentUser };
     }
 }

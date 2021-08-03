@@ -13,20 +13,21 @@ import i18next from "../configs/i18n.config";
 @JsonController()
 export class TokenController {
     @Get("token/validate")
-    async validateToken(@CurrentUser() currentUser: User) {
+    async validateToken(@CurrentUser() currentUser: User): Promise<User> {
         return { ...currentUser };
     }
 
     @Get("token/refresh")
-    async refreshToken(@CurrentUser() currentUser: User) {
+    async refreshToken(@CurrentUser() currentUser: User): Promise<unknown> {
         const { email, role } = currentUser;
         const token = jwtService.sign({ email, role });
-        console.log('redisService.get("test")', await redisService.get("test"));
         return { token };
     }
 
     @Get("token/invalidate")
-    async invalidateToken(@HeaderParam("authorization") jwtToken: string) {
+    async invalidateToken(
+        @HeaderParam("authorization") jwtToken: string
+    ): Promise<unknown> {
         const [, token] = jwtToken.split(" ");
 
         return (

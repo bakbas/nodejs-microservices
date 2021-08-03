@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import {
     ExpressErrorMiddlewareInterface,
     Middleware
@@ -10,18 +10,24 @@ import { validationErrorFormatter, repositoryErrorFormatter } from "../utils";
 export default class ErrorMiddleware
     implements ExpressErrorMiddlewareInterface
 {
-    error(error: any, req: Request, res: Response, next: NextFunction) {
-        const { errors = [], httpCode = 500, name } = error;
+    error(error: any, req: Request, res: Response): void {
+        const { errors = [], httpCode = 500 } = error;
 
-        if (!!find(errors, "constraints")) {
-            return res.status(httpCode).json(validationErrorFormatter(errors));
+        let status = httpCode,
+            result = error;
+
+        if (find(errors, "constraints")) {
+            //return res.status(httpCode).json(validationErrorFormatter(errors));
+            result = validationErrorFormatter(errors);
         }
 
         if (error.driver && !!error.writeErrors) {
-            return res.status(400).json(repositoryErrorFormatter(error));
+            //return res.status(400).json(repositoryErrorFormatter(error));
+            status = 400;
+            result = repositoryErrorFormatter(error);
         }
 
-        res.status(httpCode).json({ error });
+        res.status(status).json({ error: result });
     }
 }
 

@@ -15,8 +15,8 @@ export default class MorganMiddleware implements ExpressMiddlewareInterface {
         return this.env !== "development";
     };
 
-    public use(req: Request, res: Response, next: NextFunction) {
-        return morgan(
+    public use(req: Request, res: Response, next: NextFunction): void {
+        morgan(
             ":method :url HTTP/:http-version - :status :res[content-length] - :referrer - :user-agent - :remote-addr - :remote-user [:date[clf]]",
             {
                 stream: this.stream,

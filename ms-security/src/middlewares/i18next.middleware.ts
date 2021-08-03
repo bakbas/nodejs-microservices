@@ -5,7 +5,7 @@ import i18next from "../configs/i18n.config";
 
 @Middleware({ type: "before" })
 export default class I18nextMiddleware implements ExpressMiddlewareInterface {
-    public use(req: Request, res: Response, next: NextFunction) {
+    public use(req: Request, res: Response, next: NextFunction): void {
         return i18nextHttpMiddleware.handle(i18next)(req, res, next);
     }
 }

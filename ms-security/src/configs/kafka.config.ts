@@ -1,4 +1,4 @@
-import { Kafka, Producer, Consumer } from "kafkajs";
+import { Kafka } from "kafkajs";
 
 const kafka = new Kafka({
     clientId: "my-app",

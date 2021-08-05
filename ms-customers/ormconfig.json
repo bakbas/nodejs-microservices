@@ -2,10 +2,13 @@
     "type": "mongodb",
     "host": "localhost",
     "database": "ms-customers",
+    "username": "bahtiyar",
+    "password": "mongo",
     "synchronize": true,
-    "logging": false,
-    "entities": ["src/entities/*.js"],
+    "logging": true,
+    "useUnifiedTopology": true,
+    "entities": ["src/entities/*.ts"],
     "cli": {
-        "entitiesDir": "src/entity"
+        "entitiesDir": "src/entities"
     }
 }

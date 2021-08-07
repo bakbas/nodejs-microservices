@@ -1,7 +1,7 @@
 import { Action, HttpError } from "routing-controllers";
-import { getMongoRepository } from "typeorm";
-import { Customer } from "../entities/customer.entity";
-import { AuthService } from "../services";
+import logger from "../utils/logger.util";
+import customerRepository from "../repositories/customer.repository";
+import authService from "../services/auth.service";
 
 export default async function Authorization(
     action: Action,
@@ -12,22 +12,23 @@ export default async function Authorization(
     if (!authorization) return false;
 
     try {
-        const user: any = await AuthService.verifyToken(authorization);
+        const user = await authService.verifyToken(authorization);
 
-        if (!!roles?.length && !roles?.includes(user?.role)) return false;
+        if (roles?.length && !roles?.includes(user?.role)) return false;
 
-        const customerRepository = getMongoRepository(Customer);
-
-        const currentCustomer = await customerRepository.findOne({
-            email: user?.email
-        });
+        const currentCustomer = await customerRepository.getCustomerByEmail(
+            user?.email
+        );
 
         if (!currentCustomer) return false;
 
-        const { email } = currentCustomer;
+        const { status, email } = currentCustomer;
+
+        if (status !== 1) return false;
 
         action.request.user = { email };
     } catch (err) {
+        logger.error(`AuthorizationDecorator=> ${err.message || err}`);
         throw new HttpError(401, err.message || err);
     }
 

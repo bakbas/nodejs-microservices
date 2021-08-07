@@ -3,9 +3,10 @@ import {
     Entity,
     CreateDateColumn,
     ObjectIdColumn,
-    ObjectID
+    ObjectID,
+    BeforeInsert
 } from "typeorm";
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { IsEmail, IsNotEmpty, IsInt } from "class-validator";
 import { Address } from "../models/address.model";
 
 export enum OnboardingStatus {
@@ -22,7 +23,7 @@ export enum OnboardingStatus {
 }
 
 @Entity("customers")
-export class Customer {
+class Customer {
     @ObjectIdColumn({ name: "_id" })
     id: ObjectID;
 
@@ -34,17 +35,20 @@ export class Customer {
     @Column()
     phone: string;
 
-    @Column()
+    @Column({ nullable: false })
+    @IsNotEmpty()
     name: string;
 
-    @Column()
+    @Column({ nullable: false })
+    @IsNotEmpty()
     surname: string;
 
     @Column()
     dateOfBirth: string;
 
     @Column()
-    status: string;
+    @IsInt()
+    status: number;
 
     @Column()
     onboardingStatus: string;
@@ -55,7 +59,7 @@ export class Customer {
     @Column()
     nationality: string;
 
-    @Column((type) => Address)
+    @Column()
     address: Address;
 
     @CreateDateColumn({
@@ -63,4 +67,11 @@ export class Customer {
         default: () => "LOCALTIMESTAMP"
     })
     createdAt: Date;
+
+    @BeforeInsert()
+    beforeInsertActions() {
+        this.status = 1;
+    }
 }
+
+export default Customer;

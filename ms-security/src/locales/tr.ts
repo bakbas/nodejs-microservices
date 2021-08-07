@@ -8,7 +8,8 @@ export default {
         loginFail: "Yanlış e-posta adresi veya şifre, lütfen tekrar deneyin",
         invalidToken: "Geçersiz JWT",
         lockedAccount:
-            "3'ten fazla hatalı giriş denemesi nedeniyle hesabınız kilitlendi"
+            "3'ten fazla hatalı giriş denemesi nedeniyle hesabınız kilitlendi",
+        inactiveAccount: "Hesabınız etkin değil"
     },
     token: { revoke: "JWT iptal edildi" }
 };

@@ -3,10 +3,20 @@ import {
     Entity,
     CreateDateColumn,
     ObjectIdColumn,
-    ObjectID
+    ObjectID,
+    BeforeInsert
 } from "typeorm";
-import { IsInt, IsEmail, IsNotEmpty } from "class-validator";
+import {
+    IsInt,
+    IsEmail,
+    IsNotEmpty,
+    IsString,
+    MinLength,
+    MaxLength,
+    Matches
+} from "class-validator";
 import { hash, verify } from "argon2";
+import i18next from "../configs/i18n.config";
 
 export enum UserRole {
     CUSTOMER = "customer",
@@ -25,8 +35,17 @@ export class User {
     email: string;
 
     @Column({ nullable: false })
+    @IsString()
+    @MinLength(4)
+    @MaxLength(20)
+    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+        message: i18next.t("errors.passwordTooWeak")
+    })
     @IsNotEmpty()
     password: string;
+
+    name: string;
+    surname: string;
 
     @Column("enum", { enum: UserRole })
     role: UserRole = UserRole.CUSTOMER;
@@ -43,7 +62,12 @@ export class User {
 
     @Column()
     @IsInt()
-    status = 1; //0-Deactive, 1-Active
+    status: number; //0-Deactive, 1-Active
+
+    @BeforeInsert()
+    beforeInsertActions() {
+        this.status = 1;
+    }
 
     public static async comparePassword(
         user: User,

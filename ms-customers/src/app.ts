@@ -5,7 +5,7 @@ dotenv.config({
 import express, { Application } from "express";
 import { useExpressServer, Action } from "routing-controllers";
 import { createConnection, Connection } from "typeorm";
-import { logger } from "./utils";
+import logger from "./utils/logger.util";
 import authorizationChecker from "./decorators/authorization.decorator";
 import consumers from "./consumers";
 
@@ -25,7 +25,7 @@ export default class App {
     }
 
     async consumers(): Promise<void> {
-        //await consumers.run();
+        await consumers.run();
     }
 
     public async start(): Promise<Application> {

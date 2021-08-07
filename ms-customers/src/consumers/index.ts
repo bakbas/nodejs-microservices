@@ -1,8 +1,8 @@
-import userConsumer from "./user.consumer";
+import customerConsumer from "./customer.consumer";
 
 class Consumers {
     public async run() {
-        await userConsumer.run();
+        await customerConsumer.run();
     }
 }
 

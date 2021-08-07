@@ -1,19 +1,18 @@
 import axios from "axios";
-import { getMongoRepository } from "typeorm";
-import { Customer } from "../entities/customer.entity";
+import logger from "../utils/logger.util";
 
 class AuthService {
-    private customerRepository = getMongoRepository(Customer);
-
-    public static async verifyToken(token: string): Promise<any | boolean> {
+    public async verifyToken(token: string): Promise<any> {
         const user = await axios
             .get("http://localhost:8000/api/token/validate", {
                 headers: { authorization: token }
             })
-            .catch((e) => console.log("AuthServiceValidateError: ", e.message));
+            .catch((e) => {
+                logger.error(`AuthService:verifyToken=> ${e.message}`);
+            });
 
         return user?.data;
     }
 }
 
-export default AuthService;
+export default new AuthService();

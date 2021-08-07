@@ -1,10 +1,7 @@
 import kafka from "../configs/kafka.config";
-//import producerService from "../services/producer.service";
 
 class UserConsumer {
-    constructor(private consumer = kafka.consumer({ groupId: "user_group" })) {
-        console.log("UserConsumer");
-    }
+    constructor(private consumer = kafka.consumer({ groupId: "user_group" })) {}
 
     async run() {
         await this.consumer.connect();
@@ -16,11 +13,9 @@ class UserConsumer {
 
         await this.consumer.run({
             eachMessage: async (result) => {
-                console.log("eachMessage: " + JSON.stringify(result));
+                //console.log("eachMessage: " + JSON.stringify(result));
             }
         });
-
-        // await producerService.send("deneme 1234", "user_topic");
     }
 }
 

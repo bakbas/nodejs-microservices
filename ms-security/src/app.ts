@@ -5,9 +5,9 @@ dotenv.config({
 import express, { Application } from "express";
 import { useExpressServer, Action } from "routing-controllers";
 import { createConnection, Connection } from "typeorm";
-import { logger } from "./utils";
-import authorizationChecker from "./decorators/authorization.decorator";
-import consumers from "./consumers";
+import logger from "@utils/logger.util";
+import authorizationChecker from "@decorators/authorization.decorator";
+import consumers from "@consumers/index";
 
 export default class App {
     private readonly app: Application = express();

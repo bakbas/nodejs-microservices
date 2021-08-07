@@ -1,6 +1,6 @@
-import kafka from "../configs/kafka.config";
-import customerService from "../services/customer.service";
-import logger from "../utils/logger.util";
+import kafka from "@configs/kafka.config";
+import customerService from "@services/customer.service";
+import logger from "@utils/logger.util";
 
 class CustomerConsumer {
     private consumer = kafka.consumer({ groupId: "customer_group" });

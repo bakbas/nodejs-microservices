@@ -1,5 +1,5 @@
 import { parse } from "hjson";
-import i18next from "../configs/i18n.config";
+import i18next from "@configs/i18n.config";
 
 const ErrorList: { [key: string]: string } = {
     email: i18next.t("errors.usedEmail")

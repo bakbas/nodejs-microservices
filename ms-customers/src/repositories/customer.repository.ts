@@ -1,6 +1,6 @@
 import { getMongoRepository } from "typeorm";
 import { EntityRepository } from "typeorm";
-import Customer from "../entities/customer.entity";
+import Customer from "@entities/customer.entity";
 
 @EntityRepository(Customer)
 class CustomerRepository {

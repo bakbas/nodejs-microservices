@@ -1,4 +1,4 @@
-import redisClient from "../configs/redis.config";
+import redisClient from "@configs/redis.config";
 
 class RedisService {
     public async set(key: string, value: string): Promise<Error | boolean> {

@@ -16,7 +16,7 @@ import {
     Matches
 } from "class-validator";
 import { hash, verify } from "argon2";
-import i18next from "../configs/i18n.config";
+import i18next from "@configs/i18n.config";
 
 export enum UserRole {
     CUSTOMER = "customer",

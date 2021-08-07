@@ -1,7 +1,7 @@
 import { Action, HttpError } from "routing-controllers";
-import logger from "../utils/logger.util";
-import customerRepository from "../repositories/customer.repository";
-import authService from "../services/auth.service";
+import logger from "@utils/logger.util";
+import customerRepository from "@repositories/customer.repository";
+import authService from "@services/auth.service";
 
 export default async function Authorization(
     action: Action,

@@ -1,6 +1,6 @@
 import { DeepPartial } from "typeorm";
-import Customer from "../entities/customer.entity";
-import customerRepository from "../repositories/customer.repository";
+import Customer from "@entities/customer.entity";
+import customerRepository from "@repositories/customer.repository";
 
 class CustomerService {
     public async register({

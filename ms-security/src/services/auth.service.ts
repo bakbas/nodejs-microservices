@@ -1,6 +1,6 @@
 import { getMongoRepository } from "typeorm";
 import { omit } from "lodash";
-import { User } from "../entities/user.entity";
+import { User } from "@entities/user.entity";
 
 class AuthService {
     public readonly userRepository = getMongoRepository(User);

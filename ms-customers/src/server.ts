@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Server } from "http";
 import App from "./app";
-import logger from "./utils/logger.util";
+import logger from "@utils/logger.util";
 
 type ShutdownHandler = () => void;
 

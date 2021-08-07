@@ -1,5 +1,5 @@
 import { CompressionTypes } from "kafkajs";
-import kafka from "../configs/kafka.config";
+import kafka from "@configs/kafka.config";
 
 class ProducerService {
     constructor(private producer = kafka.producer()) {

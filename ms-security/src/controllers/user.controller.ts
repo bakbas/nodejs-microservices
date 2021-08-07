@@ -9,10 +9,11 @@ import {
     OnUndefined
 } from "routing-controllers";
 import { DeepPartial, getMongoRepository } from "typeorm";
-import { User } from "../entities/user.entity";
-import { authService, jwtService } from "../services";
-import i18next from "../configs/i18n.config";
-import producerService from "../services/producer.service";
+import { User } from "@entities/user.entity";
+import jwtService from "@services/jwt.service";
+import authService from "@services/auth.service";
+import i18next from "@configs/i18n.config";
+import producerService from "@services/producer.service";
 
 @JsonController()
 export class UserController {

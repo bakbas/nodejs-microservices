@@ -7,14 +7,12 @@ import {
     CurrentUser,
     OnUndefined
 } from "routing-controllers";
-import { DeepPartial, getMongoRepository } from "typeorm";
-import Customer from "../entities/customer.entity";
-import customerService from "../services/customer.service";
+import { DeepPartial } from "typeorm";
+import Customer from "@entities/customer.entity";
+import customerService from "@services/customer.service";
 
 @JsonController()
 export class CustomerController {
-    public readonly customerRepository = getMongoRepository(Customer);
-
     @OnUndefined(201)
     @Post("customer/register")
     async registerUser(

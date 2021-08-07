@@ -1,5 +1,5 @@
 import { createClient, RedisClient } from "redis";
-import { logger } from "../utils";
+import logger from "@utils/logger.util";
 
 const { REDIS_URL } = process.env;
 

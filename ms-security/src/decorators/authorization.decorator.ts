@@ -1,7 +1,7 @@
 import { Action, HttpError } from "routing-controllers";
 import { getMongoRepository } from "typeorm";
-import { User } from "../entities/user.entity";
-import jwtService from "../services/jwt.service";
+import { User } from "@entities/user.entity";
+import jwtService from "@services/jwt.service";
 
 export default async function Authorization(
     action: Action,

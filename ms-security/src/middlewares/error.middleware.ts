@@ -4,7 +4,9 @@ import {
     Middleware
 } from "routing-controllers";
 import { find } from "lodash";
-import { validationErrorFormatter, repositoryErrorFormatter } from "../utils";
+import logger from "@utils/logger.util";
+import repositoryErrorFormatter from "@utils/repository.error.formatter.util";
+import validationErrorFormatter from "@utils/validation.error.formatter.util";
 
 @Middleware({ type: "after" })
 export default class ErrorMiddleware
@@ -26,6 +28,8 @@ export default class ErrorMiddleware
             status = 400;
             result = repositoryErrorFormatter(error);
         }
+
+        logger.error(result);
 
         res.status(status).json({ error: result });
     }

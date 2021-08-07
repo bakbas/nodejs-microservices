@@ -1,4 +1,4 @@
-import kafka from "../configs/kafka.config";
+import kafka from "@configs/kafka.config";
 
 class UserConsumer {
     constructor(private consumer = kafka.consumer({ groupId: "user_group" })) {}

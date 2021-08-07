@@ -4,9 +4,9 @@ import {
     Middleware
 } from "routing-controllers";
 import { find } from "lodash";
-import logger from "../utils/logger.util";
-import repositoryErrorFormatter from "../utils/repository.error.formatter.util";
-import validationErrorFormatter from "../utils/validation.error.formatter.util";
+import logger from "@utils/logger.util";
+import repositoryErrorFormatter from "@utils/repository.error.formatter.util";
+import validationErrorFormatter from "@utils/validation.error.formatter.util";
 
 @Middleware({ type: "after" })
 export default class ErrorMiddleware

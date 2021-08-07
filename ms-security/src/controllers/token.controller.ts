@@ -6,7 +6,8 @@ import {
     HeaderParam
 } from "routing-controllers";
 import { User } from "../entities/user.entity";
-import { jwtService, redisService } from "../services";
+import jwtService from "@services/jwt.service";
+import redisService from "@services/redis.service";
 import i18next from "../configs/i18n.config";
 
 @Authorized()

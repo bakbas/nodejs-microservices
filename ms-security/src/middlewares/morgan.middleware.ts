@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import morgan, { StreamOptions } from "morgan";
 import { ExpressMiddlewareInterface, Middleware } from "routing-controllers";
-import { logger } from "../utils";
+import logger from "@utils/logger.util";
 
 @Middleware({ type: "before" })
 export default class MorganMiddleware implements ExpressMiddlewareInterface {

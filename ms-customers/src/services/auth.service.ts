@@ -1,5 +1,5 @@
 import axios from "axios";
-import logger from "../utils/logger.util";
+import logger from "@utils/logger.util";
 
 class AuthService {
     public async verifyToken(token: string): Promise<any> {

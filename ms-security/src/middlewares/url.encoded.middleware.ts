@@ -6,6 +6,6 @@ export default class UrlencodedMiddleware
     implements ExpressMiddlewareInterface
 {
     public use(req: Request, res: Response, next: NextFunction): void {
-        return urlencoded({ extended: true })(req, res, next);
+        urlencoded({ extended: true })(req, res, next);
     }
 }

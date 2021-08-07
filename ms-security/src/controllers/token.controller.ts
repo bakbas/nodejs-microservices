@@ -14,7 +14,7 @@ import i18next from "../configs/i18n.config";
 export class TokenController {
     @Get("token/validate")
     async validateToken(@CurrentUser() currentUser: User): Promise<User> {
-        return { ...currentUser };
+        return currentUser;
     }
 
     @Get("token/refresh")

@@ -7,6 +7,6 @@ export default class CompressionMiddleware
     implements ExpressMiddlewareInterface
 {
     public use(req: Request, res: Response, next: NextFunction): void {
-        return compression()(req, res, next);
+        compression()(req, res, next);
     }
 }

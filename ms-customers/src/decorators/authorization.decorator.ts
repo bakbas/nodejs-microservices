@@ -22,11 +22,11 @@ export default async function Authorization(
 
         if (!currentCustomer) return false;
 
-        const { status, email } = currentCustomer;
+        const { status, email, name, surname } = currentCustomer;
 
         if (status !== 1) return false;
 
-        action.request.user = { email };
+        action.request.customer = { email, name, surname };
     } catch (err) {
         logger.error(`AuthorizationDecorator=> ${err.message || err}`);
         throw new HttpError(401, err.message || err);

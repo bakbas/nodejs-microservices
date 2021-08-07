@@ -29,7 +29,7 @@ export class CustomerController {
 
     @Authorized()
     @Get("customer")
-    async getUser(@CurrentUser() currentUser: Customer): Promise<Customer> {
-        return currentUser;
+    async getUser(@CurrentUser() currentCustomer: Customer): Promise<Customer> {
+        return currentCustomer;
     }
 }

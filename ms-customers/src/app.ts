@@ -38,7 +38,7 @@ export default class App {
             controllers: [__dirname + "/controllers/*.controller.ts"],
             middlewares: [__dirname + "/middlewares/*.middleware.ts"],
             defaultErrorHandler: false,
-            currentUserChecker: (action: Action) => action.request.user,
+            currentUserChecker: (action: Action) => action.request.customer,
             authorizationChecker
         });
     }

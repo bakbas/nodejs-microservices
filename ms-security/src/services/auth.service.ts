@@ -8,7 +8,7 @@ class AuthService {
         password: string
     ): Promise<User | boolean> {
         const user = await userRepository.getUserByEmail(email);
-        return !!user && (await User.comparePassword(user, password))
+        return user && (await User.comparePassword(user, password))
             ? (omit(user, ["password"]) as User)
             : false;
     }

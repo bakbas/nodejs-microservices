@@ -5,10 +5,10 @@ import {
     CurrentUser,
     HeaderParam
 } from "routing-controllers";
-import { User } from "../entities/user.entity";
+import User from "@entities/user.entity";
 import jwtService from "@services/jwt.service";
 import redisService from "@services/redis.service";
-import i18next from "../configs/i18n.config";
+import i18next from "@configs/i18n.config";
 
 @Authorized()
 @JsonController()

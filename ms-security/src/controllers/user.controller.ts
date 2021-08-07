@@ -8,27 +8,22 @@ import {
     HttpError,
     OnUndefined
 } from "routing-controllers";
-import { DeepPartial, getMongoRepository } from "typeorm";
-import { User } from "@entities/user.entity";
+import { DeepPartial } from "typeorm";
+import User from "@entities/user.entity";
 import jwtService from "@services/jwt.service";
 import authService from "@services/auth.service";
 import i18next from "@configs/i18n.config";
 import producerService from "@services/producer.service";
+import userService from "@services/user.service";
 
 @JsonController()
 export class UserController {
-    public readonly userRepository = getMongoRepository(User);
-
     @OnUndefined(201)
     @Post("user/register")
     async registerUser(
         @Body() { email = "", password = "", name, surname }: DeepPartial<User>
     ): Promise<void> {
-        const user = new User();
-        user.email = email;
-        user.password = await User.hashPassword(password);
-
-        await this.userRepository.save(user);
+        await userService.register({ email, password });
 
         await producerService.send(
             { type: "register", email, name, surname },

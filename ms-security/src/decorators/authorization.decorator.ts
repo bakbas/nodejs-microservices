@@ -1,7 +1,7 @@
 import { Action, HttpError } from "routing-controllers";
-import { getMongoRepository } from "typeorm";
-import { User } from "@entities/user.entity";
+import userRepository from "@repositories/user.repository";
 import jwtService from "@services/jwt.service";
+import logger from "@utils/logger.util";
 
 export default async function Authorization(
     action: Action,
@@ -11,16 +11,14 @@ export default async function Authorization(
 
     if (!authorization) return false;
 
-    const [, token] = authorization.split(" ");
-
     try {
+        const [, token] = authorization.split(" ");
+
         const tokenBody = await jwtService.verify(token);
 
-        const userRepository = getMongoRepository(User);
-
-        const currentUser = await userRepository.findOne({
-            email: tokenBody.email
-        });
+        const currentUser = await userRepository.getUserByEmail(
+            tokenBody.email
+        );
 
         if (!currentUser) return false;
 
@@ -28,11 +26,11 @@ export default async function Authorization(
 
         if (status !== 1) return false;
 
-        if (!!roles?.length && !roles?.includes(currentUser?.role))
-            return false;
+        if (roles?.length && !roles?.includes(currentUser?.role)) return false;
 
         action.request.user = { email, role };
     } catch (err) {
+        logger.error(`AuthorizationDecorator=> ${err.message || err}`);
         throw new HttpError(401, err.message || err);
     }
 

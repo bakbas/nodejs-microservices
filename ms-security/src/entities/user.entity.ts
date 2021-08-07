@@ -25,7 +25,7 @@ export enum UserRole {
 }
 
 @Entity("users")
-export class User {
+class User {
     @ObjectIdColumn({ name: "_id" })
     id: ObjectID;
 
@@ -80,3 +80,5 @@ export class User {
         return await hash(password);
     }
 }
+
+export default User;

@@ -1,4 +1,5 @@
 import { DeepPartial, getCustomRepository, Repository } from "typeorm";
+import { assign, pickBy } from "lodash";
 import Customer from "@entities/customer.entity";
 import CustomerRepository from "@repositories/customer.repository";
 
@@ -40,14 +41,17 @@ class CustomerService {
 
         if (!customer) throw new Error("Customer not found");
 
-        const newCustomer = Object.assign(customer, {
-            email,
-            phone,
-            name,
-            surname,
-            dateOfBirth,
-            nationality
-        });
+        const newCustomer = assign(
+            customer,
+            pickBy({
+                email,
+                phone,
+                name,
+                surname,
+                dateOfBirth,
+                nationality
+            })
+        );
 
         return await this.customerRepository.save(newCustomer);
     }

@@ -19,9 +19,16 @@ export class TokenController {
     }
 
     @Get("token/refresh")
-    async refreshToken(@CurrentUser() currentUser: User): Promise<unknown> {
+    async refreshToken(
+        @CurrentUser() currentUser: User,
+        @HeaderParam("authorization") jwtToken: string
+    ): Promise<unknown> {
         const { email, role } = currentUser;
         const token = jwtService.sign({ email, role });
+
+        const [, oldToken] = jwtToken.split(" ");
+        await redisService.set(`blacklist_${oldToken}`, "true");
+
         return { token };
     }
 

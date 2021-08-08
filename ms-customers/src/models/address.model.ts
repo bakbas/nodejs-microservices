@@ -1,4 +1,4 @@
-export class Address {
+export default class Address {
     line: string;
 
     town: string;
@@ -11,14 +11,7 @@ export class Address {
 
     postcode: string;
 
-    constructor(
-        line: string,
-        town: string,
-        county: string,
-        state: string,
-        country: string,
-        postcode: string
-    ) {
+    constructor({ line, town, county, state, country, postcode }: Address) {
         this.line = line;
         this.town = town;
         this.county = county;

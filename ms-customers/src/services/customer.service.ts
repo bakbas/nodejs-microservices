@@ -1,20 +1,56 @@
-import { DeepPartial } from "typeorm";
+import { DeepPartial, getCustomRepository, Repository } from "typeorm";
 import Customer from "@entities/customer.entity";
-import customerRepository from "@repositories/customer.repository";
+import CustomerRepository from "@repositories/customer.repository";
 
 class CustomerService {
-    public async register({
-        email = "",
-        name = "",
-        surname = ""
-    }: DeepPartial<Customer>): Promise<any> {
-        const user = new Customer();
-        user.email = email;
-        user.name = name;
-        user.surname = surname;
+    private customerRepository: Repository<Customer>;
 
-        return await customerRepository.createCustomer(user);
+    constructor() {
+        this.customerRepository = getCustomRepository(CustomerRepository);
+    }
+
+    public async create({
+        email,
+        name,
+        surname
+    }: DeepPartial<Customer>): Promise<Customer> {
+        const customer = this.customerRepository.create({
+            email,
+            name,
+            surname
+        });
+
+        return await this.customerRepository.save(customer);
+    }
+
+    public async update(
+        currentEmail: string,
+        {
+            email,
+            phone,
+            name,
+            surname,
+            dateOfBirth,
+            nationality
+        }: DeepPartial<Customer>
+    ): Promise<Customer> {
+        const customer = await this.customerRepository.findOne({
+            email: currentEmail
+        });
+
+        if (!customer) throw new Error("Customer not found");
+
+        const newCustomer = Object.assign(customer, {
+            email,
+            phone,
+            name,
+            surname,
+            dateOfBirth,
+            nationality
+        });
+
+        return await this.customerRepository.save(newCustomer);
     }
 }
 
-export default new CustomerService();
+export default CustomerService;

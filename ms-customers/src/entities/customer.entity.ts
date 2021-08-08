@@ -7,7 +7,7 @@ import {
     BeforeInsert
 } from "typeorm";
 import { IsEmail, IsNotEmpty, IsInt } from "class-validator";
-import { Address } from "@models/address.model";
+import Address from "@models/address.model";
 
 export enum OnboardingStatus {
     PHONE_CAPTURED = "PHONE_CAPTURED",
@@ -47,7 +47,6 @@ class Customer {
     dateOfBirth: string;
 
     @Column()
-    @IsInt()
     status: number;
 
     @Column()

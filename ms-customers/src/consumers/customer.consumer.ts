@@ -1,11 +1,16 @@
 import kafka from "@configs/kafka.config";
-import customerService from "@services/customer.service";
 import logger from "@utils/logger.util";
+import CustomerService from "@services/customer.service";
 
 class CustomerConsumer {
     private consumer = kafka.consumer({ groupId: "customer_group" });
+    private customerService: CustomerService;
 
-    async run() {
+    constructor() {
+        this.customerService = new CustomerService();
+    }
+
+    public async run() {
         await this.consumer.connect();
 
         await this.consumer.subscribe({
@@ -19,7 +24,7 @@ class CustomerConsumer {
 
                 if (msg.type === "register") {
                     try {
-                        customerService.register(msg);
+                        await this.customerService.create(msg);
                     } catch (error) {
                         console.log(error);
                         logger.error(error);
@@ -30,4 +35,4 @@ class CustomerConsumer {
     }
 }
 
-export default new CustomerConsumer();
+export default CustomerConsumer;

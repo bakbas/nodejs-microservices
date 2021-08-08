@@ -1,12 +1,15 @@
+import { getCustomRepository } from "typeorm";
 import { Action, HttpError } from "routing-controllers";
 import logger from "@utils/logger.util";
-import customerRepository from "@repositories/customer.repository";
+import CustomerRepository from "@repositories/customer.repository";
 import authService from "@services/auth.service";
 
 export default async function Authorization(
     action: Action,
     roles?: string[]
 ): Promise<boolean> {
+    const customerRepository = getCustomRepository(CustomerRepository);
+
     const { authorization } = action.request.headers;
 
     if (!authorization) return false;
@@ -16,9 +19,9 @@ export default async function Authorization(
 
         if (roles?.length && !roles?.includes(user?.role)) return false;
 
-        const currentCustomer = await customerRepository.getCustomerByEmail(
-            user?.email
-        );
+        const currentCustomer = await customerRepository.findOne({
+            email: user?.email
+        });
 
         if (!currentCustomer) return false;
 

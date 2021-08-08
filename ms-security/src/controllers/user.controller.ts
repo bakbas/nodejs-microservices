@@ -19,18 +19,16 @@ import userService from "@services/user.service";
 @JsonController()
 export class UserController {
     @OnUndefined(201)
-    @Post("user/register")
-    async registerUser(
-        @Body() { email = "", password = "", name, surname }: DeepPartial<User>
+    @Post("user")
+    async createUser(
+        @Body() { email, password, name, surname }: DeepPartial<User>
     ): Promise<void> {
-        await userService.register({ email, password });
+        await userService.create({ email, password });
 
         await producerService.send(
             { type: "register", email, name, surname },
             "user_topic"
         );
-
-        return;
     }
 
     @Post("user/login")

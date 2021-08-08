@@ -3,7 +3,7 @@ import User from "@entities/user.entity";
 import userRepository from "@repositories/user.repository";
 
 class UserService {
-    public async register({
+    public async create({
         email = "",
         password = ""
     }: DeepPartial<User>): Promise<any> {

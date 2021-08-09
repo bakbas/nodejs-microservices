@@ -7,7 +7,7 @@ import { useExpressServer, Action } from "routing-controllers";
 import { createConnection, Connection } from "typeorm";
 import logger from "@utils/logger.util";
 import authorizationChecker from "@decorators/authorization.decorator";
-import consumers from "@consumers/index";
+import UserConsumer from "@consumers/user.consumer";
 
 export default class App {
     private readonly app: Application = express();
@@ -25,7 +25,8 @@ export default class App {
     }
 
     async consumers(): Promise<void> {
-        await consumers.run();
+        const userConsumer = new UserConsumer();
+        await userConsumer.run();
     }
 
     public async start(): Promise<Application> {

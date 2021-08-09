@@ -1,5 +1,6 @@
+import { getCustomRepository } from "typeorm";
 import { Action, HttpError } from "routing-controllers";
-import userRepository from "@repositories/user.repository";
+import UserRepository from "@repositories/user.repository";
 import jwtService from "@services/jwt.service";
 import logger from "@utils/logger.util";
 
@@ -7,6 +8,8 @@ export default async function Authorization(
     action: Action,
     roles?: string[]
 ): Promise<boolean> {
+    const userRepository = getCustomRepository(UserRepository);
+
     const { authorization } = action.request.headers;
 
     if (!authorization) return false;
@@ -16,9 +19,9 @@ export default async function Authorization(
 
         const tokenBody = await jwtService.verify(token);
 
-        const currentUser = await userRepository.getUserByEmail(
-            tokenBody.email
-        );
+        const currentUser = await userRepository.findOne({
+            email: tokenBody?.email
+        });
 
         if (!currentUser) return false;
 

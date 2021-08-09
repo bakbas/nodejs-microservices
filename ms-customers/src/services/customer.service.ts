@@ -1,6 +1,7 @@
 import { DeepPartial, getCustomRepository, Repository } from "typeorm";
 import { assign, pickBy } from "lodash";
 import Customer from "@entities/customer.entity";
+import producerService from "@services/producer.service";
 import CustomerRepository from "@repositories/customer.repository";
 
 class CustomerService {
@@ -32,6 +33,9 @@ class CustomerService {
             name,
             surname,
             dateOfBirth,
+            status,
+            onboardingStatus,
+            emailVerified,
             nationality
         }: DeepPartial<Customer>
     ): Promise<Customer> {
@@ -49,8 +53,21 @@ class CustomerService {
                 name,
                 surname,
                 dateOfBirth,
+                status,
+                onboardingStatus,
+                emailVerified,
                 nationality
             })
+        );
+
+        await producerService.send(
+            {
+                type: "update",
+                currentEmail,
+                email,
+                status
+            },
+            "customer_topic"
         );
 
         return await this.customerRepository.save(newCustomer);

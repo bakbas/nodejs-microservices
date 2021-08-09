@@ -14,16 +14,22 @@ import jwtService from "@services/jwt.service";
 import authService from "@services/auth.service";
 import i18next from "@configs/i18n.config";
 import producerService from "@services/producer.service";
-import userService from "@services/user.service";
+import UserService from "@services/user.service";
 
 @JsonController()
 export class UserController {
+    private userService: UserService;
+
+    constructor() {
+        this.userService = new UserService();
+    }
+
     @OnUndefined(201)
     @Post("user")
     async createUser(
         @Body() { email, password, name, surname }: DeepPartial<User>
     ): Promise<void> {
-        await userService.create({ email, password });
+        await this.userService.create({ email, password });
 
         await producerService.send(
             { type: "register", email, name, surname },

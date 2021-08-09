@@ -73,7 +73,7 @@ class User {
         user: User,
         password: string
     ): Promise<boolean> {
-        return await verify(user?.password as string, password);
+        return await verify(user.password, password);
     }
 
     public static async hashPassword(password: string): Promise<string> {

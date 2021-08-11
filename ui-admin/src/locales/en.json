@@ -1,0 +1,68 @@
+{
+    "errors": {
+        "required": "This field is required",
+        "e4001": "Wallet connection request rejected. Please connect your wallet.",
+        "e9500": "Please install Metamask",
+        "e9501": "Please change your wallet network"
+    },
+    "general": {
+        "anyTime": "Any Time",
+        "endOfPlan": "End of Plan",
+        "connectWallet": "Connect Wallet",
+        "copy": "Copy",
+        "copySuccess": "Successfuly copied",
+        "deposit": "Deposit",
+        "profit": "Profit",
+        "plan": "Plan",
+        "yourStake": "Your Stake"
+    },
+    "footer": {
+        "copyright": "Copyright © {{year}} All rights reserved.",
+        "poweredBy": "Powered by",
+        "bsc": "Binance Smart Chain"
+    },
+    "planBox": {
+        "dailyProfit": "Daily Profit",
+        "totalReturn": "Total Return",
+        "withdrawTime": "Withdraw Time",
+        "days": "Days",
+        "complationDays": "In {{days}} days you will get",
+        "stakeButton": "Stake BNB",
+        "note": "* plan use capitalization of interest"
+    },
+    "rules": {
+        "rule1": "Important: Plans return are float and daily profit for a new deposit will increase by 0.1% daily",
+        "rule2": "Minimum deposit amount is 0.01 BNB and you can have multiple deposits",
+        "rule3": "Earnings every moment, withdraw instantly any time (if you did not use capitalization of interest in Plan 4, Plan 5 and Plan 6)"
+    },
+    "referral": {
+        "line1": "Earn for promotion",
+        "line2": "You will receive:",
+        "line3": "4% from each level 1 referral deposits",
+        "line4": "2% from each level 2 referral deposits",
+        "line5": "1% from each level 3 referral deposits",
+        "line6": "0.5% from each level 4 referral deposits",
+        "line7": "Note! You need to have at least 1 deposit to start receive earnings",
+        "totalReferralEarned": "Total Referral Earned",
+        "totalReferralWithdrawn": "Total Referral Withdrawn",
+        "totalReferrals": "Total Referrals",
+        "yourReferralLink": "Your Referral Link"
+    },
+    "stake": {
+        "yourStake": "Your Stake",
+        "totalStakedBNB": "Total Staked BNB",
+        "availableWithdrawal": "Available BNB for Withdrawal",
+        "withdrawBNB": "Withdraw BNB"
+    },
+    "info": {
+        "info1": "Total income: based on your tarrif plan (from 19% to 23% daily)",
+        "info2": "Basic interest rate: +0.1% every 24 hours - only for new deposits",
+        "info3": "Minimal deposit: 0.01 BNB, no maximal limit",
+        "info4": "Earnings every moment, withdraw any time (if you use capitalization of interest you can withdraw only after end of your deposit)"
+    },
+    "contract": {
+        "totalStaked": "Total Staked BNB",
+        "contract": "Contract",
+        "totalBalance": "Total Contract Balance"
+    }
+}
